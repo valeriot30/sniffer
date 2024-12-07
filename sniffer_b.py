@@ -83,25 +83,20 @@ async def monitor_websocket(uri):
                 latencs.pop()
 
                 print(f"Round completato. Round totali: {rounds}. Round vincenti: {winning_rounds}")
-            
+                
                 data['rounds'].append({
                     "winning":winning,
                     "multipliers":muls,
                     "latencies":latencs,
                 })
 
-                if(rounds > 600):
+                if(rounds == 600):
                     file_name = "data_" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + ".json"
 
                     # Write data to JSON file
                     with open(file_name, "w") as json_file:
                         json.dump(data, json_file, indent=4)
-
-                    data = {
-                        "id": str(uuid.uuid4()),
-                        "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "rounds": []
-                    }
+                    data['rounds'] = []
 
                 latencies.clear()  # Reset della latenza per il prossimo round
                 multipliers.clear()
